@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      *{
+        margin: 0;
+        padding: 0;
+      }
+       body{
+        background-color: black;
+        color : aqua;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      } 
+      .container{
+        /* background-color: aqua; */
+        height : 90vh;
+        width : 90vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .game{
+        height : 80vmin;
+        width : 80vmin;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+  
+      }
+      .btn{
+        border  : 4px solid aqua;
+        box-shadow: 4px 4px 4px aqua;
+        height : 23vmin;
+        width : 23vmin;
+        margin : 1vmin;
+        font-size: 5rem;
+        background-color: black;
+        color : black;
+      }
+      #head{
+        text-align: center;
+        margin : 3vmin;
+        font-weight: bolder;
+      }
+      .style{
+        height : 8vmin;
+        width : 20vmin;
+        border-radius: 2vmin;
+        font-weight: bolder;
+        margin : 10vmin;
+        color : aqua;
+        background-color: aqua;
+        box-shadow: 2px 2px 2px aqua;
+        color : black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1rem;
+      }
+      #msg{
+        font-size: 5vmin;
+        margin-bottom: 5vmin;
+      }
+      h1{
+        text-shadow: 2px 4px 2px aqua;
+        box-shadow: 4px 4px 4px aqua;
+      }
+      #reset{
+        position: relative;
+        bottom: 5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1 id="head">TIC-TAC-TOE</h1>
+    <div class="msg-container">
+      <button id="new" class="style">New Game</button>
+      <p id="msg">uieebdjn</p>
+    </div>
+  </header>
+   <main>
+    <div class="container">
+    <div class="game">
+      <button class="btn"></button>
+      <button class="btn"></button>
+      <button class="btn"></button>
+      <button class="btn"></button>
+      <button class="btn"></button>
+      <button class="btn"></button>
+      <button class="btn"></button>
+      <button class="btn"></button>
+      <button class="btn"></button>
+    </div>
+  </div>
+</main>
+<footer>
+  <button id="reset" class="style">Reset Game</button>
+</footer>
+  </body>
+  <script>
+
+  let boxes = document.querySelectorAll('.btn')
+  let newBtn = document.querySelector('#new')
+  let resetBtn = document.querySelector('#reset')
+  let msg = document.querySelector('#msg')
+  let turn0 = true;
+ 
+  msg.style.display = "none";
+  newBtn.style.display = "none";
+  let winPatterns = [
+  [0,1,2],
+  [0,3,6],
+  [0,4,8],
+  [1,4,7],
+  [2,5,8],
+  [2,4,6],
+  [3,4,5],
+  [6,7,8]
+];
+
+let count = 0;
+  boxes.forEach((btn) => {
+    btn.addEventListener("click" , () => {
+      if(turn0 == true){
+        btn.innerText = "O";
+        btn.style.color = "red"
+        turn0 = false;
+      }
+      else{
+        btn.innerText = "#"
+        btn.style.color = "green"
+        turn0 = true
+      }
+      count++
+      draw(count)
+      btn.disabled = true
+      checkWinner()
+    })
+  })
+  function draw(){
+    if(count === '9'){
+      msg.style.display = "grid"
+      newBtn.style.display = "grid"
+      msg.innerText = `Match is draw! No winner`
+    }
+    count = 0
+  }
+  function checkWinner()  {
+     for(let pattern of winPatterns){
+     let pos1Val = boxes[pattern[0]].innerText
+     let pos2Val = boxes[pattern[1]].innerText
+     let pos3Val = boxes[pattern[2]].innerText
+  if(pos1Val != "" && pos2Val != "" && pos3Val != ""){
+     if(pos1Val == pos2Val && pos2Val == pos3Val){
+      showWinner(pos1Val)
+  }
+     }
+     }
+  }
+
+  function showWinner(winner) {
+    msg.style.display = "grid"
+    newBtn.style.display = "grid"
+      msg.innerText = `Congratulations winner is ${winner}`
+        resetBtn.disabled = false
+        btnDisable()
+  }
+  
+  
+  function btnDisable(){
+    for(let button of boxes){
+      button.disabled = true;
+    }
+  }
+
+  resetBtn.addEventListener("click" , () => {
+    for(let box of boxes){
+      box.innerText = ""
+    }
+  })
+
+  newBtn.addEventListener("click" , () => {
+    for(let button of boxes){
+        button.innerText = ""
+      button.disabled = false;
+    }
+    turn0 = true
+    msg.style.display = "none";
+  newBtn.style.display = "none";
+  })
+ 
+ 
+  </script>
+</html>
